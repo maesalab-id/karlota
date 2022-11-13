@@ -1,19 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import { router } from "./router";
+import { router } from "./Router";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ClientProvider } from "components/client";
+import { MantineProvider } from "@mantine/core";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider withNormalizeCSS>
+          <RouterProvider router={router} />
+        </MantineProvider>
+      </QueryClientProvider>
+    </ClientProvider>
   </React.StrictMode>
 );
 

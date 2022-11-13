@@ -40,5 +40,5 @@
       }
     }
   },
-  "postgres": "postgres://postgres:@localhost:5432/karlota"
+  "postgres": "postgres://postgres:postgres@localhost:5432/karlota"
 }

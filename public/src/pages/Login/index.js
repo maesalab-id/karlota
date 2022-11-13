@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Button, Container, TextInput } from "@mantine/core";
 import { Formik } from "formik";
-import { useClient } from "../hooks/client";
+import { useClient } from "components/client";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
@@ -15,7 +15,7 @@ export const Login = () => {
         password: value.password,
         strategy: "local",
       });
-      navigate("/chat");
+      navigate("/");
     } catch (err) {
       console.error(err);
       setSubmitting(false);
