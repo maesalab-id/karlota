@@ -1,5 +1,6 @@
 import { HooksObject } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
+import chatResponse from '../../hooks/chat-response';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -19,9 +20,9 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [chatResponse()],
     update: [],
-    patch: [],
+    patch: [chatResponse()],
     remove: []
   },
 

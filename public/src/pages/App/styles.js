@@ -11,7 +11,7 @@ export const useStyles = createStyles((theme) => ({
     inset: 0,
     display: 'flex',
     alignItems: "center",
-    padding: 24
+    // padding: 24
   },
   container: {
     maxHeight: 750,

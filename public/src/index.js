@@ -1,24 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
-import { router } from "./Router";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ClientProvider } from "components/client";
-import { MantineProvider } from "@mantine/core";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
+import { router } from './Router';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ClientProvider, FeathersProvider } from 'components/client';
+import { MantineProvider } from '@mantine/core';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <ClientProvider>
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider withNormalizeCSS>
-          <RouterProvider router={router} />
-        </MantineProvider>
-      </QueryClientProvider>
-    </ClientProvider>
+    <FeathersProvider>
+      <ClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MantineProvider withNormalizeCSS>
+            <RouterProvider router={router} />
+          </MantineProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </ClientProvider>
+    </FeathersProvider>
   </React.StrictMode>
 );
 
