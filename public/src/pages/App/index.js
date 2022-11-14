@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import { useClient } from "components/client";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useStyles } from "./styles";
-import { Container, Group } from "@mantine/core";
-import { Contacts } from "./Contacts";
+import { useEffect } from 'react';
+import { useClient } from 'components/client';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useStyles } from './styles';
+import { Container } from '@mantine/core';
+import { Contacts } from './Contacts';
+import { WorkerProvider } from 'components/worker';
 
 function App() {
   const { classes } = useStyles();
@@ -14,25 +15,27 @@ function App() {
       try {
         const res = await client.reAuthenticate();
       } catch (err) {
-        navigate("/login");
+        navigate('/login');
       }
     };
     fetch();
   }, []);
 
   return (
-    <div className={classes.background}>
-      <div className={classes.wrapper}>
-        <Container p={0} className={classes.container}>
-          <div className={classes.contacts}>
-            <Contacts />
-          </div>
-          <div className={classes.chatRoom}>
-            <Outlet />
-          </div>
-        </Container>
+    <WorkerProvider>
+      <div className={classes.background}>
+        <div className={classes.wrapper}>
+          <Container p={0} className={classes.container}>
+            <div className={classes.contacts}>
+              <Contacts />
+            </div>
+            <div className={classes.chatRoom}>
+              <Outlet />
+            </div>
+          </Container>
+        </div>
       </div>
-    </div>
+    </WorkerProvider>
   );
 }
 

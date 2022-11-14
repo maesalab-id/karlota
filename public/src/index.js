@@ -7,6 +7,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ClientProvider, FeathersProvider } from 'components/client';
 import { MantineProvider } from '@mantine/core';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { LocalDBProvider } from 'components/localDB';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,12 +16,14 @@ root.render(
   <React.StrictMode>
     <FeathersProvider>
       <ClientProvider>
-        <QueryClientProvider client={queryClient}>
-          <MantineProvider withNormalizeCSS>
-            <RouterProvider router={router} />
-          </MantineProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <LocalDBProvider>
+          <QueryClientProvider client={queryClient}>
+            <MantineProvider withNormalizeCSS>
+              <RouterProvider router={router} />
+            </MantineProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </LocalDBProvider>
       </ClientProvider>
     </FeathersProvider>
   </React.StrictMode>

@@ -1,6 +1,22 @@
-import { createStyles, Group, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  createStyles,
+  Group,
+  Text,
+  ThemeIcon,
+} from '@mantine/core';
+import { IconCheck, IconChecks } from '@tabler/icons';
+import { MESSAGE_STATUS } from 'components/constants';
 
-export const ChatBaloon = ({ id, type, content, alt, name, timestamp }) => {
+export const ChatBaloon = ({
+  id,
+  type,
+  content,
+  alt,
+  name,
+  timestamp,
+  status,
+}) => {
   const { classes } = useStyles({ isSender: alt });
   return (
     <div className={classes.wrapper}>
@@ -12,21 +28,40 @@ export const ChatBaloon = ({ id, type, content, alt, name, timestamp }) => {
         </Group> */}
         <Text size="sm" className={classes.content}>
           <span className={classes.contentText}>{content}</span>
+
           <span className={classes.contentSpace}>
-            <Text
-              size="xs"
-              pl={4}
-              style={{ visibility: 'hidden' }}
-              className={classes.timestamp}
-            >
+            <Text size="xs" pl={4} className={classes.timestamp}>
               {timestamp}
             </Text>
+            {!alt && (
+              <div className={classes.tickStatus}>
+                {status === MESSAGE_STATUS['SENT'] && <IconCheck size={16} />}
+                {status === MESSAGE_STATUS['DELIVERED'] && (
+                  <IconChecks size={16} />
+                )}
+                {status === MESSAGE_STATUS['READ'] && (
+                  <IconChecks size={16} color="blue[5]" />
+                )}
+              </div>
+            )}
           </span>
         </Text>
+
         <div className={classes.timestampWrapper}>
           <Text size="xs" className={classes.timestamp}>
             {timestamp}
           </Text>
+          {!alt && (
+            <div className={classes.tickStatus}>
+              {status === MESSAGE_STATUS['SENT'] && <IconCheck size={16} />}
+              {status === MESSAGE_STATUS['DELIVERED'] && (
+                <IconChecks size={16} />
+              )}
+              {status === MESSAGE_STATUS['READ'] && (
+                <IconChecks size={16} color="blue[5]" />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -75,9 +110,14 @@ const useStyles = createStyles((theme, { isSender }) => ({
     color: theme.colors.gray[6],
     bottom: theme.spacing.xs / 2,
     right: theme.spacing.xs,
+    display: 'flex',
+    alignItems: 'center',
   },
   timestamp: {
     display: 'inline-block',
+  },
+  tickStatus: {
+    display: 'inline-flex',
   },
   content: {
     whiteSpace: 'pre-wrap',
@@ -86,5 +126,5 @@ const useStyles = createStyles((theme, { isSender }) => ({
   contentText: {
     userSelect: 'text',
   },
-  contentSpace: {},
+  contentSpace: { visibility: 'hidden' },
 }));

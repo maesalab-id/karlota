@@ -23,8 +23,8 @@ export const InputBox = () => {
         recipientId: room.user.id,
         senderId: client.user.id,
       });
-      console.log("Sent");
-      setFieldValue('content', 'SENT');
+      console.log('Sent');
+      setFieldValue('content', '');
     },
     [room, client]
   );
@@ -42,7 +42,7 @@ export const InputBox = () => {
           <Group className={classes.inputWrapper} spacing={'xs'} p="xs">
             <TextInput
               name="content"
-              values={values['content']}
+              value={values['content']}
               style={{ flexGrow: 1 }}
               onChange={handleChange}
               placeholder="Send message"

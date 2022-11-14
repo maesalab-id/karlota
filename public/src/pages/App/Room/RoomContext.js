@@ -1,13 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useClient } from 'components/client';
-import { LocalDB } from 'components/localDB';
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { useLocalDB } from 'components/localDB';
+import { createContext, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const RoomContext = createContext({
@@ -16,7 +10,7 @@ export const RoomContext = createContext({
 });
 
 export const RoomProvider = (props) => {
-  const localDB = LocalDB();
+  const localDB = useLocalDB();
   const params = useParams();
   const client = useClient();
   const userQuery = useQuery({
@@ -29,26 +23,14 @@ export const RoomProvider = (props) => {
 
   const getChats = useCallback(async () => {
     if (!client.user) return [];
-    console.log(client.user);
-    let messages = await localDB.messageStorageInstance.keys();
-    messages = messages
-      .filter((key) => {
-        return (
-          key.indexOf(`${params.id}.${client.user.id}`) !== -1 ||
-          key.indexOf(`${client.user.id}.${params.id}`) !== -1
-        );
-      })
-      .map(async (key) => {
-        return await localDB.messageStorageInstance.getItem(key);
-      });
-    return await Promise.all(messages);
+    return await localDB.messages.getBySenderRecipientId(
+      params.id,
+      client.user.id
+    );
   }, [params.id, client.user]);
 
   const setChat = useCallback((data) => {
-    localDB.messageStorageInstance.setItem(
-      `${data.createdAt}-${data.sender.id}.${data.recipient.id}.${data.id}`,
-      data
-    );
+    localDB.messages.push(data);
   }, []);
 
   const room = {
